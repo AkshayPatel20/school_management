@@ -20,10 +20,23 @@
 </nav>
 
 
-<div class="container">
-  <div id="disp_blacklist">
 
-  <div>
+<div class="container">
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Rollno</th>
+      <th scope="col">Class</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+
 </div>
 
 
@@ -40,19 +53,31 @@ $(document).ready(function(){
 function show_blacklist(){
 $.ajax({
     type: 'ajax',
-    url: '<?= base_url('Client/show_blacklist'); ?>',
-    url  : "<?php echo base_url(); ?>/index.php/Client/show_blacklist",
+    url  : '<?php echo base_url(); ?>/index.php/Client/show_blacklist',
     async: 'false',
-    datatype: 'json',
+    datatype: 'application/json',
 
     success: function(data){
       var html = '';
-					var i;
-					for(i=0; i<data.length; i++){
-           
-          }
-					$('#disp_blacklist').html(html);
-    console.log(data);
+      
+      var result = JSON.parse(data);
+        console.log(result);
+        console.log(result[0].blacklist_name);
+
+      for(var i=0;i<result.length;i++){
+
+        html += '<tr>'+
+									'<td>'+result[i].blacklist_id+'</td>'+
+									'<td>'+result[i].blacklist_name+'</td>'+
+									'<td>'+result[i].blacklist_rollno+'</td>'+
+									'<td>'+result[i].blacklist_class+'</td>'+
+							    '</tr>';
+
+        }//close for loop
+				$('tbody').html(html);
+        window.setTimeout(show_blacklist, 1000);
+      
+      
      
     },
     error: function(){
